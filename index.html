@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PMSINTERFACE · AI Engineering & Automation</title>
+  <!-- Bootstrap 5 + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ===== ALL STYLES REMAIN THE SAME ===== */
+    :root {
+      --primary-color: #34b7a7;
+      --primary-dark: #2a9d8f;
+      --secondary-color: #2c3e50;
+      --bg-light: #f4f8fa;
+      --text-dark: #2c3e50;
+      --text-muted: #6c7a8a;
+      --shadow-sm: 0 2px 20px rgba(0,0,0,0.04);
+      --shadow-md: 0 10px 40px rgba(0,0,0,0.06);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,0.08);
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-dark);
+      background: #fff;
+      line-height: 1.7;
+      scroll-behavior: smooth;
+    }
+    .navbar {
+      background: rgba(255,255,255,0.95) !important;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-sm);
+      padding: 12px 0;
+      transition: 0.3s;
+    }
+    .navbar-brand {
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: var(--secondary-color);
+      letter-spacing: -0.5px;
+    }
+    .navbar-brand span {
+      color: var(--primary-color);
+    }
+    .navbar-nav .nav-link {
+      font-weight: 500;
+      color: var(--secondary-color);
+      margin: 0 12px;
+      padding: 8px 0;
+      font-size: 0.9rem;
+      transition: 0.3s;
+      position: relative;
+      cursor: pointer;
+    }
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link.active {
+      color: var(--primary-color);
+    }
+    .navbar-nav .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--primary-color);
+      transition: 0.3s;
+    }
+    .navbar-nav .nav-link:hover::after,
+    .navbar-nav .nav-link.active::after {
+      width: 100%;
+    }
+    .dropdown-menu {
+      border: none;
+      box-shadow: var(--shadow-md);
+      border-radius: 12px;
+      padding: 12px 0;
+    }
+    .dropdown-item {
+      font-weight: 400;
+      padding: 8px 24px;
+      color: var(--secondary-color);
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .dropdown-item:hover {
+      background: #f1f8f7;
+      color: var(--primary-color);
+    }
+    .dropdown-submenu {
+      position: relative;
+    }
+    .dropdown-submenu .dropdown-menu {
+      top: 0;
+      left: 100%;
+      margin-top: -8px;
+    }
+
+    .hero-section {
+      padding: 100px 0 80px;
+      background: linear-gradient(135deg, #f4f8fa 0%, #e8f0f3 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(52,183,167,0.05) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: var(--secondary-color);
+      line-height: 1.1;
+    }
+    .hero-title span {
+      color: var(--primary-color);
+      position: relative;
+    }
+    .hero-title span::after {
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: rgba(52,183,167,0.2);
+      border-radius: 4px;
+      z-index: -1;
+    }
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 20px 0 30px;
+      font-weight: 300;
+    }
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .hero-badge {
+      background: #fff;
+      padding: 6px 20px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--secondary-color);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid #eaf0f2;
+      transition: 0.3s;
+    }
+    .hero-badge:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-color);
+    }
+    .hero-image-wrapper {
+      position: relative;
+      text-align: center;
+    }
+    .hero-image-placeholder {
+      background: linear-gradient(145deg, #ffffff, #f0f5f8);
+      border-radius: 24px;
+      padding: 20px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e4edf2;
+      box-shadow: var(--shadow-md);
+      transition: 0.3s;
+    }
+    .hero-image-placeholder:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .hero-image-placeholder img {
+      max-width: 100%;
+      border-radius: 16px;
+      margin-bottom: 12px;
+    }
+    .hero-image-placeholder .placeholder-icon {
+      font-size: 4rem;
+      color: var(--primary-color);
+      opacity: 0.4;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+      position: relative;
+      margin-bottom: 15px;
+    }
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), #6dd5c8);
+      margin-top: 12px;
+      border-radius: 4px;
+    }
+    .section-subtitle {
+      color: var(--text-muted);
+      font-weight: 300;
+      font-size: 1.05rem;
+      margin-bottom: 40px;
+    }
+    .text-center .section-title::after {
+      margin: 12px auto 0;
+    }
+
+    .service-card {
+      cursor: pointer;
+      border: none;
+      border-radius: 20px;
+      box-shadow: var(--shadow-sm);
+      transition: 0.4s ease;
+      height: 100%;
+      background: #fff;
+      overflow: hidden;
+      position: relative;
+    }
+    .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary-color);
+    }
+    .service-card.active {
+      border: 2px solid var(--primary-color);
+      box-shadow: 0 8px 30px rgba(52,183,167,0.2);
+    }
+    .service-card .card-body {
+      padding: 30px 28px 32px;
+    }
+    .service-card .card-icon {
+      font-size: 2.8rem;
+      color: var(--primary-color);
+      margin-bottom: 16px;
+      display: inline-block;
+      background: rgba(52,183,167,0.08);
+      padding: 14px;
+      border-radius: 16px;
+      line-height: 1;
+    }
+    .service-card .card-title {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    .service-card .card-text {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 300;
+    }
+    .service-card .badge-count {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: var(--primary-color);
+      color: white;
+      padding: 4px 14px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    .service-card .click-hint {
+      margin-top: 12px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    .project-list {
+      display: none;
+      margin-top: 30px;
+    }
+    .project-list.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .project-card {
+      border: none;
+      border-radius: 20px;
+      box-shadow: var(--shadow-sm);
+      transition: 0.4s ease;
+      height: 100%;
+      background: #fff;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+    .project-card .project-thumbnail {
+      position: relative;
+      overflow: hidden;
+      background: #1a1a2e;
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .project-card .project-thumbnail img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    .project-card:hover .project-thumbnail img {
+      transform: scale(1.03);
+    }
+    .project-card .card-body {
+      padding: 24px 28px 28px;
+    }
+    .project-card .card-title {
+      font-weight: 600;
+      font-size: 1.15rem;
+      margin-bottom: 6px;
+    }
+    .project-card .card-text {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 300;
+    }
+    .project-card .card-badge {
+      display: inline-block;
+      background: #eef6f5;
+      padding: 2px 14px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin: 4px 4px 0 0;
+      letter-spacing: 0.3px;
+    }
+
+    /* Image Zoom Modal */
+    .image-zoom-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.92);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.3s ease;
+      padding: 20px;
+    }
+    .image-zoom-modal.active {
+      display: flex;
+    }
+    .image-zoom-modal .zoom-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .image-zoom-modal .zoom-content img {
+      max-width: 100%;
+      max-height: 90vh;
+      border-radius: 12px;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+      object-fit: contain;
+    }
+    .image-zoom-modal .close-zoom {
+      position: absolute;
+      top: -50px;
+      right: -10px;
+      color: white;
+      font-size: 2.5rem;
+      cursor: pointer;
+      z-index: 10;
+      transition: 0.3s;
+      background: none;
+      border: none;
+    }
+    .image-zoom-modal .close-zoom:hover {
+      transform: rotate(90deg);
+      color: var(--primary-color);
+    }
+    .image-zoom-modal .zoom-hint {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.5);
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+    @keyframes zoomIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .image-zoom-modal .zoom-content img {
+      animation: zoomIn 0.3s ease;
+    }
+    .clickable-image {
+      cursor: zoom-in;
+      transition: 0.2s;
+    }
+    .clickable-image:hover {
+      opacity: 0.95;
+    }
+
+    /* Video Modal */
+    .video-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+    .video-modal.active {
+      display: flex;
+    }
+    .video-modal .modal-content {
+      position: relative;
+      width: 90%;
+      max-width: 900px;
+      background: #000;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .video-modal .modal-content .close-modal {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      z-index: 10;
+      transition: 0.3s;
+      background: none;
+      border: none;
+    }
+    .video-modal .modal-content .close-modal:hover {
+      transform: rotate(90deg);
+      color: var(--primary-color);
+    }
+    .video-modal .modal-content .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+    }
+    .video-modal .modal-content .video-wrapper iframe,
+    .video-modal .modal-content .video-wrapper video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .video-modal .modal-title {
+      color: white;
+      padding: 16px 20px 12px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      background: #111;
+    }
+
+    .case-study-detail {
+      display: none;
+      background: var(--bg-light);
+      border-radius: 20px;
+      padding: 40px;
+      margin-top: 30px;
+      border: 1px solid #e4edf2;
+      animation: fadeIn 0.5s ease;
+    }
+    .case-study-detail.active {
+      display: block;
+    }
+    .case-study-detail .back-btn {
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      font-weight: 500;
+      margin-bottom: 20px;
+      padding: 0;
+      cursor: pointer;
+    }
+    .case-study-detail .back-btn:hover {
+      text-decoration: underline;
+    }
+
+    .media-frame {
+      background: #f8fbfc;
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid #eef3f7;
+      margin-top: 20px;
+      transition: 0.3s;
+      box-shadow: var(--shadow-sm);
+    }
+    .media-frame:hover {
+      box-shadow: var(--shadow-md);
+    }
+    .media-placeholder {
+      background: linear-gradient(145deg, #eef4f8, #f5f9fb);
+      border-radius: 16px;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      border: 2px dashed #c8d8e3;
+      padding: 30px 20px;
+      text-align: center;
+      transition: 0.3s;
+    }
+    .media-placeholder img {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 12px;
+      object-fit: cover;
+      margin-bottom: 10px;
+      cursor: zoom-in;
+    }
+    .media-placeholder i {
+      font-size: 3rem;
+      color: var(--primary-color);
+      opacity: 0.4;
+      margin-bottom: 10px;
+    }
+    .media-caption {
+      font-size: 0.8rem;
+      background: white;
+      padding: 4px 16px;
+      border-radius: 30px;
+      border: 1px solid #d6e2eb;
+      margin-top: 10px;
+      color: var(--secondary-color);
+    }
+    .media-instruction {
+      background: #f1f8f7;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      border-left: 4px solid var(--primary-color);
+      margin-top: 14px;
+      color: var(--secondary-color);
+    }
+    .media-instruction strong {
+      color: #1a6b5f;
+    }
+
+    .cta-section {
+      background: linear-gradient(135deg, #f4f8fa 0%, #e8f0f3 100%);
+      border-radius: 24px;
+      padding: 50px 45px;
+      margin-top: 30px;
+      box-shadow: var(--shadow-sm);
+      scroll-margin-top: 80px;
+    }
+    .social-links a {
+      display: inline-block;
+      width: 44px;
+      height: 44px;
+      line-height: 44px;
+      text-align: center;
+      background: #fff;
+      border-radius: 50%;
+      color: var(--secondary-color);
+      margin-right: 10px;
+      box-shadow: var(--shadow-sm);
+      transition: 0.3s;
+      border: 1px solid #e4edf2;
+      text-decoration: none;
+    }
+    .social-links a:hover {
+      background: var(--primary-color);
+      color: #fff;
+      border-color: var(--primary-color);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(52,183,167,0.25);
+    }
+    .btn-primary-custom {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      border: none;
+      padding: 12px 38px;
+      border-radius: 50px;
+      font-weight: 600;
+      color: #fff;
+      transition: 0.3s;
+      box-shadow: 0 4px 20px rgba(52,183,167,0.3);
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .btn-primary-custom:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(52,183,167,0.4);
+      color: #fff;
+      text-decoration: none;
+    }
+    .btn-outline-custom {
+      background: transparent;
+      border: 2px solid var(--primary-color);
+      padding: 10px 34px;
+      border-radius: 50px;
+      font-weight: 600;
+      color: var(--primary-color);
+      transition: 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .btn-outline-custom:hover {
+      background: var(--primary-color);
+      color: #fff;
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+    .btn-outline-custom i {
+      margin-right: 6px;
+    }
+
+    .project-gallery-img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid #e4edf2;
+      transition: 0.3s;
+    }
+    .project-gallery-img:hover {
+      transform: scale(1.02);
+      box-shadow: var(--shadow-md);
+    }
+
+    #contact {
+      scroll-margin-top: 80px;
+    }
+
+    .project-page {
+      display: none;
+      padding: 60px 0 80px;
+      background: var(--bg-light);
+      min-height: 80vh;
+    }
+    .project-page.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    .project-page .back-link {
+      display: inline-block;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+    .project-page .back-link:hover {
+      text-decoration: underline;
+    }
+    .project-page .media-placeholder img {
+      max-height: 400px;
+      cursor: zoom-in;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.4rem; }
+      .hero-section { padding: 60px 0 40px; }
+      .section-title { font-size: 1.8rem; }
+      .navbar-brand { font-size: 1.4rem; }
+      .cta-section { padding: 30px 20px; }
+      .hero-image-placeholder { min-height: 200px; }
+      .case-study-detail { padding: 20px; }
+      .project-card .project-thumbnail { min-height: 160px; }
+      .project-card .project-thumbnail img { height: 160px; }
+      .btn-primary-custom, .btn-outline-custom { 
+        display: block; 
+        width: 100%; 
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .video-modal .modal-content { width: 95%; }
+      .image-zoom-modal .zoom-content img { max-height: 80vh; }
+      .image-zoom-modal .close-zoom { top: -40px; right: 0; }
+    }
+    @media (max-width: 992px) {
+      .dropdown-submenu .dropdown-menu {
+        left: 0;
+        margin-top: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#" onclick="showMainPage(); return false;">PMSINTERFACE<span>.</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="#" onclick="showMainPage(); return false;">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" onclick="showMainPage(); return false;">Services</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+              Projects
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#" onclick="showMainPage(); setTimeout(() => selectService(0), 300); return false;">Deep Tech</a></li>
+              <li><a class="dropdown-item" href="#" onclick="showMainPage(); setTimeout(() => selectService(1), 300); return false;">Backend Infrastructure</a></li>
+              <li><a class="dropdown-item" href="#" onclick="showMainPage(); setTimeout(() => selectService(2), 300); return false;">Autonomous Workflows</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="#contact" onclick="showMainPage(); setTimeout(() => scrollToContact(), 300); return false;">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== MAIN PAGE ========== -->
+  <div id="mainPage">
+
+    <!-- HERO -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-7">
+            <h1 class="hero-title">PMSINTERFACE</h1>
+            <p class="hero-subtitle">
+              AI Engineering · Production Infrastructure · Autonomous Operations<br>
+              <span style="font-weight: 400; color: var(--secondary-color);">Deep Learning · Python Backends · n8n Workflows · AI Image Generation</span>
+            </p>
+            <div class="hero-badges">
+              <span class="hero-badge"><i class="bi bi-cpu"></i> TensorFlow</span>
+              <span class="hero-badge"><i class="bi bi-eye"></i> OpenCV</span>
+              <span class="hero-badge"><i class="bi bi-server"></i> Flask</span>
+              <span class="hero-badge"><i class="bi bi-database"></i> MongoDB</span>
+              <span class="hero-badge"><i class="bi bi-diagram-3"></i> n8n</span>
+              <span class="hero-badge"><i class="bi bi-mic"></i> Retell AI</span>
+              <span class="hero-badge"><i class="bi bi-palette"></i> AI Image Generation</span>
+            </div>
+            <div style="margin-top: 30px;">
+              <a href="https://calendly.com/lukeifunaya30/30min" target="_blank" class="btn btn-primary-custom me-3">
+                <i class="bi bi-calendar-check"></i> Book a Call
+              </a>
+              <a href="#" class="btn btn-outline-custom" onclick="showMainPage(); return false;"><i class="bi bi-grid-3x3-gap-fill"></i> View Projects</a>
+            </div>
+          </div>
+          <div class="col-lg-5 mt-4 mt-lg-0">
+            <div class="hero-image-wrapper">
+              <div class="hero-image-placeholder">
+                <i class="bi bi-code-square placeholder-icon"></i>
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop&crop=center" 
+                     alt="AI Engineering Dashboard" 
+                     style="width: 100%; border-radius: 16px; margin-bottom: 8px;">
+                <span style="font-size: 0.85rem; color: var(--text-muted);">PMSINTERFACE · AI Engineering</span>
+              </div>
+              <div class="media-instruction" style="margin-top: 12px;">
+                <strong>📌 CANVA:</strong> Replace the placeholder image with your high-res photo, terminal dashboard, or code screenshot.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES GRID -->
+    <section class="py-5" style="background: var(--bg-light);">
+      <div class="container">
+        <div class="text-center mb-5">
+          <h2 class="section-title" style="display: inline-block;">Services & Projects</h2>
+          <p class="section-subtitle">Select a service to see related projects</p>
+        </div>
+
+        <div class="row g-4" id="serviceGrid">
+          <div class="col-md-4">
+            <div class="service-card" onclick="selectService(0)">
+              <span class="badge-count">4 Projects</span>
+              <div class="card-body">
+                <div class="card-icon"><i class="bi bi-cpu"></i></div>
+                <h5 class="card-title">Deep Tech</h5>
+                <p class="card-text">Computer Vision, Neural Networks, TensorFlow, OpenCV, and custom Python architectures.</p>
+                <div class="click-hint"><i class="bi bi-hand-index-thumb"></i> Click to view projects</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="service-card" onclick="selectService(1)">
+              <span class="badge-count">2 Projects</span>
+              <div class="card-body">
+                <div class="card-icon"><i class="bi bi-server"></i></div>
+                <h5 class="card-title">Backend Infrastructure</h5>
+                <p class="card-text">Python, Flask, MongoDB, SQLite. Scalable APIs, data pipelines, and real-time DB systems.</p>
+                <div class="click-hint"><i class="bi bi-hand-index-thumb"></i> Click to view projects</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="service-card" onclick="selectService(2)">
+              <span class="badge-count">5 Projects</span>
+              <div class="card-body">
+                <div class="card-icon"><i class="bi bi-robot"></i></div>
+                <h5 class="card-title">Autonomous Workflows</h5>
+                <p class="card-text">n8n, Make.com, Voiceflow, Retell AI, ElevenLabs, Tally. Conversational AI + automation.</p>
+                <div class="click-hint"><i class="bi bi-hand-index-thumb"></i> Click to view projects</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROJECT LISTS -->
+        <div id="projectListContainer">
+          
+          <!-- ============================================================ -->
+          <!-- DEEP TECH PROJECTS (4 Projects)                              -->
+          <!-- ============================================================ -->
+          <div class="project-list" data-service="0">
+            <h5 style="font-weight: 600; color: var(--secondary-color); margin-bottom: 16px;"><i class="bi bi-cpu"></i> Deep Tech Projects</h5>
+            <div class="row g-4">
+              
+              <!-- Project 1: Image Recognition - NO VIDEO -->
+              <div class="col-md-3">
+                <div class="project-card" onclick="openProjectPage('deepTech1')">
+                  <div class="project-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop&crop=center" alt="Project thumbnail">
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">Image Recognition Batch Pipeline</h5>
+                    <div><span class="card-badge">TensorFlow</span><span class="card-badge">OpenCV</span></div>
+                    <p class="card-text mt-2">Batch inference engine processing thousands of images with custom CNN.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 2: PropAI - NO VIDEO -->
+              <div class="col-md-3">
+                <div class="project-card" onclick="openProjectPage('propAI')">
+                  <div class="project-thumbnail">
+                    <img src="./Deep-Tech(computer-vision)images/real-estate 1.jpg" alt="PropAI Real Estate Valuation" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop&crop=center'">
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">PropAI · Real Estate Valuation</h5>
+                    <div>
+                      <span class="card-badge">Python</span>
+                      <span class="card-badge">Flask</span>
+                      <span class="card-badge">TensorFlow</span>
+                    </div>
+                    <p class="card-text mt-2">Deep learning valuation engine that takes the friction out of real estate pricing.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 3: Real Estate Prediction - NO VIDEO -->
+              <div class="col-md-3">
+                <div class="project-card" onclick="openProjectPage('deepTech2')">
+                  <div class="project-thumbnail">
+                    <img src="./Deep-Tech(computer-vision)images/real-estate 2.jpg" alt="Multi-Modal Real Estate" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop&crop=center'">
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">Multi-Modal Real Estate Prediction</h5>
+                    <div><span class="card-badge">CNN</span><span class="card-badge">XGBoost</span></div>
+                    <p class="card-text mt-2">Hybrid model fusing property images + tabular data + geospatial features.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 4: Object Detection - NO VIDEO -->
+              <div class="col-md-3">
+                <div class="project-card" onclick="openProjectPage('deepTech3')">
+                  <div class="project-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&crop=center" alt="Project thumbnail">
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">Real-Time Object Detection System</h5>
+                    <div><span class="card-badge">YOLO</span><span class="card-badge">OpenCV</span></div>
+                    <p class="card-text mt-2">Real-time object detection API serving 1000+ requests per minute.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BACKEND INFRASTRUCTURE PROJECTS - NO VIDEOS -->
+          <div class="project-list" data-service="1">
+            <h5 style="font-weight: 600; color: var(--secondary-color); margin-bottom: 16px;"><i class="bi bi-server"></i> Backend Infrastructure Projects</h5>
+            <div class="row g-4">
+              <div class="col-md-6">
+                <div class="project-card" onclick="openProjectPage('backend1')">
+                  <div class="project-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop&crop=center" alt="Project thumbnail">
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">E-Commerce API Gateway</h5>
+                    <div><span class="card-badge">Flask</span><span class="card-badge">MongoDB</span></div>
+                    <p class="card-text mt-2">Scalable API gateway handling 10K+ concurrent requests with 99.9% uptime.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="project-card" onclick="openProjectPage('backend2')">
+                  <div class="project-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&crop=center" alt="Project thumbnail">
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">Data Pipeline for Analytics</h5>
+                    <div><span class="card-badge">Python</span><span class="card-badge">Airflow</span></div>
+                    <p class="card-text mt-2">ETL pipeline processing 10M+ records daily with automated reporting and alerts.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============================================================ -->
+          <!-- AUTONOMOUS WORKFLOW PROJECTS (5 Projects)                    -->
+          <!-- ============================================================ -->
+          <div class="project-list" data-service="2">
+            <h5 style="font-weight: 600; color: var(--secondary-color); margin-bottom: 16px;"><i class="bi bi-robot"></i> Autonomous Workflow Projects</h5>
+            <div class="row g-4">
+              
+              <!-- Project 1: Lead CRM Automation - NO VIDEO -->
+              <div class="col-md-4">
+                <div class="project-card" onclick="openProjectPage('workflow1')">
+                  <div class="project-thumbnail">
+                    <img src="./Automation-images/Lead CRM.jpg" alt="Lead CRM Automation" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&crop=center'">
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">Lead CRM Automation</h5>
+                    <div><span class="card-badge">Make.com</span><span class="card-badge">Notion</span></div>
+                    <p class="card-text mt-2">Built a structured workflow using Make.com + Notion to clean data, track leads, and automate follow-ups.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 2: Lead Engine - NO VIDEO -->
+              <div class="col-md-4">
+                <div class="project-card" onclick="openProjectPage('leadEngine')">
+                  <div class="project-thumbnail">
+                    <img src="./Automation-images/Lead CRM 2.jpg" alt="Lead Engine" onerror="this.src='https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&h=400&fit=crop&crop=center'">
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">Lead Engine · AI Personalization</h5>
+                    <div>
+                      <span class="card-badge">Slack</span>
+                      <span class="card-badge">Automation</span>
+                      <span class="card-badge">Status Filters</span>
+                    </div>
+                    <p class="card-text mt-2">Automated sourcing, status-based filtering, and instant Slack notifications. AI personalization that actually scales.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 3: 24/7 Lead Capture System - NO VIDEO -->
+              <div class="col-md-4">
+                <div class="project-card" onclick="openProjectPage('leadCapture')">
+                  <div class="project-thumbnail">
+                    <img src="./Apollio-Lead-Automation/apollio lead.jpg" alt="24/7 Lead Capture System" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&crop=center'">
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">24/7 Lead Capture System</h5>
+                    <div>
+                      <span class="card-badge">Make.com</span>
+                      <span class="card-badge">Google Sheets</span>
+                      <span class="card-badge">Automation</span>
+                    </div>
+                    <p class="card-text mt-2">Captures leads 24/7, routes live chats during business hours, logs to Google Sheets, and sends automated HTML follow-ups.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 4: Reputation Guard - HAS VIDEO (NEW) -->
+              <div class="col-md-4">
+                <div class="project-card" onclick="openProjectPage('reputationGuard')">
+                  <div class="project-thumbnail" style="position: relative;">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&crop=center" alt="Reputation Guard" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&crop=center'">
+                    <!-- Video play button overlay -->
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; background: rgba(52,183,167,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; box-shadow: 0 8px 30px rgba(52,183,167,0.4);">
+                      <i class="bi bi-play-fill"></i>
+                    </div>
+                    <span style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.75); color: white; padding: 2px 12px; border-radius: 30px; font-size: 0.75rem; font-weight: 500;">1:48</span>
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">Reputation Guard</h5>
+                    <div>
+                      <span class="card-badge">WhatsApp</span>
+                      <span class="card-badge">Google Reviews</span>
+                      <span class="card-badge">Automation</span>
+                    </div>
+                    <p class="card-text mt-2">🔴 1-Star? ➡️ 3-sec WhatsApp alert to the Boss to fix it. 🟢 5-Star? ➡️ Auto-routes to Google to boost SEO.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 5: High-Intake Lead System - HAS VIDEO -->
+              <div class="col-md-4">
+                <div class="project-card" onclick="openProjectPage('workflow3')">
+                  <div class="project-thumbnail" style="position: relative;">
+                    <img src="./high-ticket-intake-system images/high-intake-lead-system.jpg" alt="High-Intake Lead System" onerror="this.src='https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&h=400&fit=crop&crop=center'">
+                    <!-- Video play button overlay -->
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; background: rgba(52,183,167,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; box-shadow: 0 8px 30px rgba(52,183,167,0.4);">
+                      <i class="bi bi-play-fill"></i>
+                    </div>
+                    <span style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.75); color: white; padding: 2px 12px; border-radius: 30px; font-size: 0.75rem; font-weight: 500;">2:00</span>
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">High-Intake Lead System</h5>
+                    <div><span class="card-badge">Botpress</span><span class="card-badge">Make.com</span></div>
+                    <p class="card-text mt-2">From "Empty Variable" to Enterprise Pipeline. High-ticket intake system with NLU, intent routing, and automated lead scoring.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="py-5">
+      <div class="container">
+        <div class="cta-section">
+          <div class="row align-items-center">
+            <div class="col-lg-8">
+              <h2 style="font-weight: 700; color: var(--secondary-color);">Ready to Build Something Amazing?</h2>
+              <p style="font-size: 1.1rem; color: var(--text-muted);">Let's discuss how I can help you scale operations with AI engineering, automation, and custom solutions.</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 20px 40px; margin: 20px 0;">
+                <span><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> Deep Tech · CV · LLMs</span>
+                <span><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> Python · Flask · MongoDB</span>
+                <span><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> n8n · Retell · Voiceflow</span>
+              </div>
+              <div class="social-links">
+                <a href="https://twitter.com/pmsinterface" target="_blank"><i class="bi bi-twitter"></i></a>
+                <a href="https://www.linkedin.com/in/ifunaya-luke-750229266" target="_blank"><i class="bi bi-linkedin"></i></a>
+                <a href="tel:+2349161737810"><i class="bi bi-phone"></i></a>
+              </div>
+              <div style="margin-top: 15px; font-size: 0.9rem; color: var(--text-muted);">
+                <i class="bi bi-twitter"></i> @pmsinterface · 
+                <i class="bi bi-linkedin"></i> linkedin.com/in/ifunaya-luke-750229266<br>
+                <i class="bi bi-envelope"></i> <span style="color: var(--secondary-color); font-weight: 500;">pmsinterfacecreation@gmail.com</span>
+              </div>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+              <a href="https://calendly.com/lukeifunaya30/30min" target="_blank" class="btn btn-primary-custom d-block d-sm-inline-block mb-2">
+                <i class="bi bi-calendar-check"></i> Book a Call
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <!-- ========== END MAIN PAGE ========== -->
+
+  <!-- ============================================================ -->
+  <!-- PROJECT PAGES                                                -->
+  <!-- ============================================================ -->
+
+  <!-- ============================================================ -->
+  <!-- PROJECT PAGE: Reputation Guard (NEW - HAS VIDEO)            -->
+  <!-- ============================================================ -->
+  <div class="project-page" id="page-reputationGuard">
+    <div class="container">
+      <a href="#" class="back-link" onclick="closeProjectPage(); return false;"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+      <h2 style="font-weight: 700; color: var(--secondary-color);">Reputation Guard</h2>
+      
+      <div class="row mt-4">
+        <div class="col-lg-6">
+          <span class="card-badge" style="background: var(--primary-color); color: #fff;">WhatsApp · Google Reviews · Automation</span>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Challenge</h5>
+          <p>Most companies don't have a review problem. They have a system problem. Businesses send everyone straight to public reviews - that's where the problem starts.</p>
+          <ul>
+            <li>Negative reviews go public before the business can respond</li>
+            <li>Business owners are "blind" to what's happening at the front desk</li>
+            <li>No system for routing feedback appropriately</li>
+          </ul>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Solution</h5>
+          <p>Built an Internal Guard System for high-ticket service brands:</p>
+          <ul>
+            <li><strong>🔴 1-Star Reviews:</strong> ➡️ 3-second WhatsApp alert to the Boss to fix it privately</li>
+            <li><strong>🟢 5-Star Reviews:</strong> ➡️ Auto-routes to Google to boost SEO</li>
+          </ul>
+          <p class="mt-2">Positive reviews get pushed public. Negative feedback gets handled privately. Reputation isn't managed - it's designed.</p>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Results</h5>
+          <ul class="list-unstyled">
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> Instant alerts for negative feedback</li>
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> Automated 5-star routing to Google</li>
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> Reputation protection for high-ticket brands</li>
+          </ul>
+          
+          <div style="margin-top: 16px; padding: 16px 20px; background: #eef6f5; border-radius: 12px; border-left: 4px solid var(--primary-color);">
+            <p style="margin: 0; font-style: italic; font-size: 0.95rem;">
+              <strong>Key insight:</strong> Reputation isn't managed - it's designed.
+            </p>
+            <p style="margin: 8px 0 0; font-size: 0.85rem; color: var(--text-muted);">
+              #ReputationManagement · #Automation · #WhatsApp · #GoogleReviews · @Pms_interface · Apr 20
+            </p>
+          </div>
+          
+          <!-- VIDEO BUTTON - FOR THIS PROJECT -->
+          <div style="margin-top: 16px;">
+            <a href="https://x.com/Pms_interface/status/2046163166015483927?s=20" target="_blank" class="btn btn-primary-custom">
+              <i class="bi bi-play-circle"></i> Watch Demo on X (Twitter)
+            </a>
+          </div>
+        </div>
+        
+        <div class="col-lg-6 mt-4 mt-lg-0">
+          <div class="media-frame">
+            <div class="media-placeholder">
+              <i class="bi bi-shield-check"></i>
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=250&fit=crop&crop=center" alt="Reputation Guard" class="clickable-image" style="max-width: 100%; border-radius: 12px; cursor: zoom-in;" onclick="openImageZoom(this.src)" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=250&fit=crop&crop=center'">
+              <span class="media-caption">Internal Guard System · WhatsApp Alert + Google Routing</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PROJECT PAGE: 24/7 Lead Capture System                       -->
+  <!-- ============================================================ -->
+  <div class="project-page" id="page-leadCapture">
+    <div class="container">
+      <a href="#" class="back-link" onclick="closeProjectPage(); return false;"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+      <h2 style="font-weight: 700; color: var(--secondary-color);">24/7 Lead Capture System</h2>
+      
+      <div class="row mt-4">
+        <div class="col-lg-6">
+          <span class="card-badge" style="background: var(--primary-color); color: #fff;">Make.com · Google Sheets · Automation</span>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Challenge</h5>
+          <p>Businesses were losing leads because they couldn't capture and respond to inquiries 24/7. No system in place for after-hours lead management.</p>
+          <ul>
+            <li>No 24/7 lead capture capability</li>
+            <li>Live chat only during business hours</li>
+            <li>No automated follow-up system</li>
+          </ul>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Solution</h5>
+          <p>Built a fully automated lead capture system that:</p>
+          <ul>
+            <li><strong>Captures leads 24/7</strong> - Never miss a lead, even outside business hours</li>
+            <li><strong>Routes live chats</strong> during business hours</li>
+            <li><strong>Instantly logs everything to Google Sheets</strong> - Real-time data tracking</li>
+            <li><strong>Sends automated HTML follow-ups</strong> - Professional, branded follow-ups</li>
+          </ul>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Results</h5>
+          <ul class="list-unstyled">
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> No more missed opportunities</li>
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> 24/7 lead capture &amp; routing</li>
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> Automated HTML follow-ups</li>
+          </ul>
+          
+          <div style="margin-top: 16px; padding: 16px 20px; background: #eef6f5; border-radius: 12px; border-left: 4px solid var(--primary-color);">
+            <p style="margin: 0; font-style: italic; font-size: 0.95rem;">
+              <strong>Key insight:</strong> Automation is the new standard. Your website needs a 24/7 worker that never asks for a raise.
+            </p>
+            <p style="margin: 8px 0 0; font-size: 0.85rem; color: var(--text-muted);">
+              #Solopreneur · #Automation · #NigeriaTech · #AI · #Make · #Voiceflow · #BuildInPublic · @Pms_interface · Apr 27
+            </p>
+          </div>
+          <!-- NO VIDEO BUTTON -->
+        </div>
+        
+        <div class="col-lg-6 mt-4 mt-lg-0">
+          <div class="media-frame">
+            <div class="media-placeholder">
+              <i class="bi bi-google"></i>
+              <img src="./Apollio-Lead-Automation/apollio lead.jpg" alt="24/7 Lead Capture System" class="clickable-image" style="max-width: 100%; border-radius: 12px; cursor: zoom-in;" onclick="openImageZoom(this.src)" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=250&fit=crop&crop=center'">
+              <span class="media-caption">Make.com + Google Sheets · Automated Lead Capture</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PROJECT PAGE: Lead Engine                                    -->
+  <!-- ============================================================ -->
+  <div class="project-page" id="page-leadEngine">
+    <div class="container">
+      <a href="#" class="back-link" onclick="closeProjectPage(); return false;"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+      <h2 style="font-weight: 700; color: var(--secondary-color);">Lead Engine · AI Personalization</h2>
+      
+      <div class="row mt-4">
+        <div class="col-lg-6">
+          <span class="card-badge" style="background: var(--primary-color); color: #fff;">Slack · Automation · Status Filters</span>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Challenge</h5>
+          <p>They said AI personalization doesn't scale. I spent the weekend proving them wrong.</p>
+          <ul>
+            <li>Manual lead sourcing was slow and inefficient</li>
+            <li>No real-time status filtering for lead tracking</li>
+            <li>Teams missed critical lead updates without instant notifications</li>
+          </ul>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Solution</h5>
+          <p>Built the "Lead Engine" - a fully operational automation system with:</p>
+          <ul>
+            <li><strong>Automated Sourcing:</strong> Captures leads 24/7 without manual intervention</li>
+            <li><strong>Status-based Filtering:</strong> Organizes and prioritizes leads intelligently</li>
+            <li><strong>Instant Slack Notifications:</strong> Real-time alerts for hot leads</li>
+          </ul>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Results</h5>
+          <ul class="list-unstyled">
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> No more missed opportunities</li>
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> 24/7 lead capture &amp; routing</li>
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> Automated HTML follow-ups</li>
+          </ul>
+          
+          <div style="margin-top: 16px; padding: 16px 20px; background: #eef6f5; border-radius: 12px; border-left: 4px solid var(--primary-color);">
+            <p style="margin: 0; font-style: italic; font-size: 0.95rem;">
+              <strong>Key insight:</strong> Automation is the new standard.
+            </p>
+            <p style="margin: 8px 0 0; font-size: 0.85rem; color: var(--text-muted);">
+              #Solopreneur · #Automation · #NigeriaTech · #AI · @Pms_interface
+            </p>
+          </div>
+          <!-- NO VIDEO BUTTON -->
+        </div>
+        
+        <div class="col-lg-6 mt-4 mt-lg-0">
+          <div class="media-frame">
+            <div class="media-placeholder">
+              <i class="bi bi-slack"></i>
+              <img src="./Automation-images/Lead CRM 2.jpg" alt="Lead Engine" class="clickable-image" style="max-width: 100%; border-radius: 12px; cursor: zoom-in;" onclick="openImageZoom(this.src)" onerror="this.src='https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&h=250&fit=crop&crop=center'">
+              <span class="media-caption">Lead Engine · Slack Notifications + Automated Sourcing</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PROJECT PAGE: PropAI - Real Estate Valuation                 -->
+  <!-- ============================================================ -->
+  <div class="project-page" id="page-propAI">
+    <div class="container">
+      <a href="#" class="back-link" onclick="closeProjectPage(); return false;"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+      <h2 style="font-weight: 700; color: var(--secondary-color);">PropAI · Real Estate Valuation Engine</h2>
+      
+      <div class="row mt-4">
+        <div class="col-lg-6">
+          <span class="card-badge" style="background: var(--primary-color); color: #fff;">Python · Flask · TensorFlow</span>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Problem</h5>
+          <p>Most AI models die inside a local code notebook doing absolutely nothing for the real world. Real estate valuation is a slow, manual headache.</p>
+          <ul>
+            <li>Humans can't easily calculate how local income, building age, &amp; room counts interact on the fly without making mistakes.</li>
+            <li>Clients are stuck dealing with slow consultation calls.</li>
+            <li>Teams waste hours manually copy-pasting data.</li>
+          </ul>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Solution</h5>
+          <p>I solved this by building a clean, automated 3-tier ecosystem:</p>
+          <ul>
+            <li><strong>The Brain:</strong> A Python/Flask backend powered by a deep learning neural network (.h5) that calculates multi-variable property price predictions in milliseconds.</li>
+            <li><strong>The UI:</strong> A clean, friction-free Tally form for clients.</li>
+            <li><strong>The Pipeline:</strong> No manual paperwork. Direct, native data pipeline routing form submissions straight into a centralized Core Dashboard Spreadsheet.</li>
+          </ul>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Results</h5>
+          <ul class="list-unstyled">
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> Instant property price predictions</li>
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> Data entry errors eliminated</li>
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> Fully automated data pipeline</li>
+          </ul>
+          
+          <div style="margin-top: 16px; padding: 16px 20px; background: #eef6f5; border-radius: 12px; border-left: 4px solid var(--primary-color);">
+            <p style="margin: 0; font-style: italic; font-size: 0.95rem;">
+              <strong>Key insight:</strong> True engineering isn't just about training a smart machine learning model. It's about building the automated data pipeline around it so it runs like a business while you sleep.
+            </p>
+            <p style="margin: 8px 0 0; font-size: 0.85rem; color: var(--text-muted);">#AI · #DeepLearning · #RealEstate · @Pms_interface · Jun 2, 2026</p>
+          </div>
+          <!-- NO VIDEO BUTTON -->
+        </div>
+        
+        <div class="col-lg-6 mt-4 mt-lg-0">
+          <div class="media-frame">
+            <div class="media-placeholder">
+              <i class="bi bi-building"></i>
+              <img src="./Deep-Tech(computer-vision)images/real-estate 1.jpg" alt="PropAI Real Estate Valuation" class="clickable-image" style="max-width: 100%; border-radius: 12px; cursor: zoom-in;" onclick="openImageZoom(this.src)" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=250&fit=crop&crop=center'">
+              <span class="media-caption">PropAI · Deep Learning Valuation Engine</span>
+            </div>
+          </div>
+          <div class="media-frame mt-3">
+            <div class="media-placeholder">
+              <i class="bi bi-diagram-3"></i>
+              <img src="./Deep-Tech(computer-vision)images/real-estate 2.jpg" alt="PropAI Dashboard" class="clickable-image" style="max-width: 100%; border-radius: 12px; cursor: zoom-in;" onclick="openImageZoom(this.src)" onerror="this.src='https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=250&fit=crop&crop=center'">
+              <span class="media-caption">Automated Data Pipeline · Flask + TensorFlow</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PROJECT PAGE: Lead CRM Automation                            -->
+  <!-- ============================================================ -->
+  <div class="project-page" id="page-workflow1">
+    <div class="container">
+      <a href="#" class="back-link" onclick="closeProjectPage(); return false;"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+      <h2 style="font-weight: 700; color: var(--secondary-color);">Lead CRM Automation</h2>
+      
+      <div class="row mt-4">
+        <div class="col-lg-6">
+          <span class="card-badge" style="background: var(--primary-color); color: #fff;">Make.com · Notion · CRM</span>
+          <h5 style="margin-top: 16px; font-weight: 600;">The Challenge</h5>
+          <p>They had months of leads and no system. Data was scattered. No follow-up. Hot leads slipping through.</p>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Solution</h5>
+          <p>Built a structured workflow using Make.com + Notion to clean data, track leads, and automate follow-ups.</p>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Results</h5>
+          <ul class="list-unstyled">
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> 0% lead leakage</li>
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> Automated follow-ups</li>
+          </ul>
+          
+          <div style="margin-top: 16px; padding: 16px 20px; background: #eef6f5; border-radius: 12px; border-left: 4px solid var(--primary-color);">
+            <p style="margin: 0; font-style: italic; font-size: 0.95rem;"><strong>Key insight:</strong> Tools didn't fix this. Structure did.</p>
+            <p style="margin: 8px 0 0; font-size: 0.85rem; color: var(--text-muted);">#CRM · PMS Interface · @Pms_interface · May 5</p>
+          </div>
+          <!-- NO VIDEO BUTTON -->
+        </div>
+        
+        <div class="col-lg-6 mt-4 mt-lg-0">
+          <div class="media-frame">
+            <div class="media-placeholder">
+              <i class="bi bi-diagram-3"></i>
+              <img src="./Automation-images/Lead CRM.jpg" alt="Lead CRM Workflow" class="clickable-image" style="max-width: 100%; border-radius: 12px; cursor: zoom-in;" onclick="openImageZoom(this.src)" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=250&fit=crop&crop=center'">
+              <span class="media-caption">Make.com + Notion Workflow</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PROJECT PAGE: High-Intake Lead System (HAS VIDEO)           -->
+  <!-- ============================================================ -->
+  <div class="project-page" id="page-workflow3">
+    <div class="container">
+      <a href="#" class="back-link" onclick="closeProjectPage(); return false;"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+      <h2 style="font-weight: 700; color: var(--secondary-color);">High-Intake Lead System</h2>
+      
+      <div class="row mt-4">
+        <div class="col-lg-6">
+          <span class="card-badge" style="background: var(--primary-color); color: #fff;">Botpress · Make.com · Notion</span>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Challenge</h5>
+          <p>From "Empty Variable" to Enterprise Pipeline. Business owners needed a high-ticket intake system that could handle leads intelligently.</p>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Solution</h5>
+          <p>Built an end-to-end system with Botpress for NLU and intent routing, Make.com for middleware and logic, Notion as the internal ops dashboard.</p>
+          
+          <h5 style="margin-top: 16px; font-weight: 600;">The Results</h5>
+          <ul class="list-unstyled">
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> Lead scoring in &lt;2 seconds</li>
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> Instant CEO notifications for hot leads</li>
+          </ul>
+          
+          <div style="margin-top: 16px; padding: 16px 20px; background: #eef6f5; border-radius: 12px; border-left: 4px solid var(--primary-color);">
+            <p style="margin: 0; font-style: italic; font-size: 0.95rem;"><strong>Key insight:</strong> The chat is just the surface. Behind the scenes, everything is automated.</p>
+            <p style="margin: 8px 0 0; font-size: 0.85rem; color: var(--text-muted);">#BuildInPublic · #AIAutomation · @Pms_interface · Apr 13</p>
+          </div>
+          
+          <!-- VIDEO BUTTONS - ONLY FOR THIS PROJECT -->
+          <div style="margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px;">
+            <a href="https://x.com/Pms_interface/status/2043640327253143876?s=20" target="_blank" class="btn btn-primary-custom">
+              <i class="bi bi-play-circle"></i> Watch Part 1
+            </a>
+            <a href="https://x.com/Pms_interface/status/2043644722850185486?s=20" target="_blank" class="btn btn-primary-custom">
+              <i class="bi bi-play-circle"></i> Watch Part 2
+            </a>
+          </div>
+        </div>
+        
+        <div class="col-lg-6 mt-4 mt-lg-0">
+          <div class="media-frame">
+            <div class="media-placeholder">
+              <i class="bi bi-envelope-paper"></i>
+              <img src="./high-ticket-intake-system images/high-intake-lead-system.jpg" alt="High-Intake Lead System" class="clickable-image" style="max-width: 100%; border-radius: 12px; cursor: zoom-in;" onclick="openImageZoom(this.src)" onerror="this.src='https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&h=250&fit=crop&crop=center'">
+              <span class="media-caption">Gmail notification · Lead scored and routed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DEEP TECH PROJECT PAGES (NO VIDEOS)                         -->
+  <!-- ============================================================ -->
+  <div class="project-page" id="page-deepTech1">
+    <div class="container">
+      <a href="#" class="back-link" onclick="closeProjectPage(); return false;"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+      <h2 style="font-weight: 700; color: var(--secondary-color);">Image Recognition Batch Pipeline</h2>
+      <div class="row mt-4">
+        <div class="col-lg-6">
+          <span class="card-badge" style="background: var(--primary-color); color: #fff;">TensorFlow · OpenCV</span>
+          <h5 style="margin-top: 16px; font-weight: 600;">The Challenge</h5>
+          <p>Manual quality assurance of 10,000+ product images daily was causing 15% error rate and 8-hour processing delays.</p>
+          <h5 style="margin-top: 16px; font-weight: 600;">The Solution</h5>
+          <p>Custom CNN model with batch inference pipeline integrated with Flask and MongoDB.</p>
+          <h5 style="margin-top: 16px; font-weight: 600;">The Results</h5>
+          <ul class="list-unstyled">
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> 85% faster than manual QA</li>
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> 98% accuracy on test set</li>
+          </ul>
+        </div>
+        <div class="col-lg-6">
+          <div class="media-frame">
+            <div class="media-placeholder">
+              <i class="bi bi-terminal"></i>
+              <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=250&fit=crop&crop=center" alt="Terminal" class="clickable-image" style="max-width: 100%; border-radius: 12px; cursor: zoom-in;" onclick="openImageZoom(this.src)">
+              <span class="media-caption">Terminal · batch pipeline running</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="project-page" id="page-deepTech2">
+    <div class="container">
+      <a href="#" class="back-link" onclick="closeProjectPage(); return false;"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+      <h2 style="font-weight: 700; color: var(--secondary-color);">Multi-Modal Real Estate Prediction</h2>
+      <div class="row mt-4">
+        <div class="col-lg-6">
+          <span class="card-badge" style="background: var(--primary-color); color: #fff;">CNN · XGBoost</span>
+          <h5 style="margin-top: 16px; font-weight: 600;">The Challenge</h5>
+          <p>Real estate valuation was 70% inaccurate due to manual assessment of property images.</p>
+          <h5 style="margin-top: 16px; font-weight: 600;">The Solution</h5>
+          <p>Hybrid model fusing property images (CNN) + tabular data (XGBoost) + geospatial features.</p>
+          <h5 style="margin-top: 16px; font-weight: 600;">The Results</h5>
+          <ul class="list-unstyled">
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> 90% prediction accuracy</li>
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> 3x faster property valuation</li>
+          </ul>
+        </div>
+        <div class="col-lg-6">
+          <div class="media-frame">
+            <div class="media-placeholder">
+              <i class="bi bi-image"></i>
+              <img src="./Deep-Tech(computer-vision)images/real-estate 2.jpg" alt="Real Estate" class="clickable-image" style="max-width: 100%; border-radius: 12px; cursor: zoom-in;" onclick="openImageZoom(this.src)" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=250&fit=crop&crop=center'">
+              <span class="media-caption">Property images → prediction matrix</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="project-page" id="page-deepTech3">
+    <div class="container">
+      <a href="#" class="back-link" onclick="closeProjectPage(); return false;"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+      <h2 style="font-weight: 700; color: var(--secondary-color);">Real-Time Object Detection System</h2>
+      <div class="row mt-4">
+        <div class="col-lg-6">
+          <span class="card-badge" style="background: var(--primary-color); color: #fff;">YOLO · OpenCV</span>
+          <h5 style="margin-top: 16px; font-weight: 600;">The Challenge</h5>
+          <p>Security monitoring required real-time threat detection across 500+ cameras with <100ms latency.</p>
+          <h5 style="margin-top: 16px; font-weight: 600;">The Solution</h5>
+          <p>YOLO-based detection API with OpenCV processing.</p>
+          <h5 style="margin-top: 16px; font-weight: 600;">The Results</h5>
+          <ul class="list-unstyled">
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> <50ms latency per request</li>
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> 97% detection accuracy</li>
+          </ul>
+        </div>
+        <div class="col-lg-6">
+          <div class="media-frame">
+            <div class="media-placeholder">
+              <i class="bi bi-camera-video"></i>
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=250&fit=crop&crop=center" alt="Object detection" class="clickable-image" style="max-width: 100%; border-radius: 12px; cursor: zoom-in;" onclick="openImageZoom(this.src)">
+              <span class="media-caption">Real-time object detection</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Backend Project Pages (NO VIDEOS) -->
+  <div class="project-page" id="page-backend1">
+    <div class="container">
+      <a href="#" class="back-link" onclick="closeProjectPage(); return false;"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+      <h2 style="font-weight: 700; color: var(--secondary-color);">E-Commerce API Gateway</h2>
+      <div class="row mt-4">
+        <div class="col-lg-6">
+          <span class="card-badge" style="background: var(--primary-color); color: #fff;">Flask · MongoDB</span>
+          <h5 style="margin-top: 16px; font-weight: 600;">The Challenge</h5>
+          <p>E-commerce platform needed a scalable API gateway to handle 10K+ concurrent users.</p>
+          <h5 style="margin-top: 16px; font-weight: 600;">The Solution</h5>
+          <p>Flask-based API with MongoDB for data persistence and Redis for caching.</p>
+          <h5 style="margin-top: 16px; font-weight: 600;">The Results</h5>
+          <ul class="list-unstyled">
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> 99.9% uptime SLA</li>
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> 300ms average response time</li>
+          </ul>
+        </div>
+        <div class="col-lg-6">
+          <div class="media-frame">
+            <div class="media-placeholder">
+              <i class="bi bi-diagram-3"></i>
+              <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=250&fit=crop&crop=center" alt="API" class="clickable-image" style="max-width: 100%; border-radius: 12px; cursor: zoom-in;" onclick="openImageZoom(this.src)">
+              <span class="media-caption">API Gateway Architecture</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="project-page" id="page-backend2">
+    <div class="container">
+      <a href="#" class="back-link" onclick="closeProjectPage(); return false;"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+      <h2 style="font-weight: 700; color: var(--secondary-color);">Data Pipeline for Analytics</h2>
+      <div class="row mt-4">
+        <div class="col-lg-6">
+          <span class="card-badge" style="background: var(--primary-color); color: #fff;">Python · Airflow</span>
+          <h5 style="margin-top: 16px; font-weight: 600;">The Challenge</h5>
+          <p>Processing 10M+ records daily was causing slow reporting and 4-hour data latency.</p>
+          <h5 style="margin-top: 16px; font-weight: 600;">The Solution</h5>
+          <p>ETL pipeline with Python and Airflow for orchestration.</p>
+          <h5 style="margin-top: 16px; font-weight: 600;">The Results</h5>
+          <ul class="list-unstyled">
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> 10x faster data processing</li>
+            <li><i class="bi bi-check-circle-fill" style="color: var(--primary-color);"></i> Real-time reporting</li>
+          </ul>
+        </div>
+        <div class="col-lg-6">
+          <div class="media-frame">
+            <div class="media-placeholder">
+              <i class="bi bi-graph-up"></i>
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=250&fit=crop&crop=center" alt="Data Pipeline" class="clickable-image" style="max-width: 100%; border-radius: 12px; cursor: zoom-in;" onclick="openImageZoom(this.src)">
+              <span class="media-caption">Data Pipeline Dashboard</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- IMAGE ZOOM MODAL                                             -->
+  <!-- ============================================================ -->
+  <div class="image-zoom-modal" id="imageZoomModal" onclick="closeImageZoom()">
+    <div class="zoom-content" onclick="event.stopPropagation();">
+      <button class="close-zoom" onclick="closeImageZoom()">&times;</button>
+      <img id="zoomImage" src="" alt="Zoomed image">
+      <span class="zoom-hint">Click anywhere to close</span>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- VIDEO MODAL                                                  -->
+  <!-- ============================================================ -->
+  <div class="video-modal" id="videoModal" onclick="closeVideoModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation();">
+      <button class="close-modal" onclick="closeVideoModal(event)">&times;</button>
+      <div class="modal-title" id="videoModalTitle">Video Demo</div>
+      <div class="video-wrapper">
+        <iframe id="videoIframe" src="" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="py-4" style="background: var(--bg-light); margin-top: 30px;">
+    <div class="container text-center">
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">
+        &copy; 2026 <span style="font-weight: 600; color: var(--secondary-color);">PMSINTERFACE</span> · AI Engineering &amp; Automation
+      </p>
+      <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 4px;">
+        <span style="color: var(--secondary-color); font-weight: 500;">pmsinterfacecreation@gmail.com</span> · 
+        <a href="tel:+2349161737810" style="color: var(--primary-color); text-decoration: none;">+234 916 173 7810</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // ============================================================ //
+    // IMAGE ZOOM FUNCTIONS                                         //
+    // ============================================================ //
+    function openImageZoom(src) {
+      const modal = document.getElementById('imageZoomModal');
+      const img = document.getElementById('zoomImage');
+      img.src = src;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeImageZoom() {
+      const modal = document.getElementById('imageZoomModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') { closeImageZoom(); }
+    });
+
+    // ============================================================ //
+    // VIDEO MODAL FUNCTIONS                                        //
+    // ============================================================ //
+    function openVideoModal(videoUrl, title) {
+      const modal = document.getElementById('videoModal');
+      const iframe = document.getElementById('videoIframe');
+      const titleEl = document.getElementById('videoModalTitle');
+      iframe.src = videoUrl;
+      titleEl.textContent = title || 'Video Demo';
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeVideoModal(event) {
+      const modal = document.getElementById('videoModal');
+      const iframe = document.getElementById('videoIframe');
+      iframe.src = '';
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') { closeVideoModal(event); }
+    });
+
+    // ============================================================ //
+    // PROJECT PAGE FUNCTIONS                                       //
+    // ============================================================ //
+    function openProjectPage(pageId) {
+      document.getElementById('mainPage').style.display = 'none';
+      document.querySelectorAll('.project-page').forEach(p => p.classList.remove('active'));
+      const target = document.getElementById('page-' + pageId);
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function closeProjectPage() {
+      document.querySelectorAll('.project-page').forEach(p => p.classList.remove('active'));
+      document.getElementById('mainPage').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ============================================================ //
+    // PAGE NAVIGATION                                              //
+    // ============================================================ //
+    function showMainPage() {
+      document.querySelectorAll('.project-page').forEach(p => p.classList.remove('active'));
+      document.getElementById('mainPage').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function scrollToContact() {
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // ============================================================ //
+    // SERVICE INTERACTIVITY                                        //
+    // ============================================================ //
+    const serviceProjectMap = {
+      0: '#projectListContainer .project-list[data-service="0"]',
+      1: '#projectListContainer .project-list[data-service="1"]',
+      2: '#projectListContainer .project-list[data-service="2"]'
+    };
+
+    function selectService(serviceIndex) {
+      document.getElementById('mainPage').style.display = 'block';
+      document.querySelectorAll('.project-page').forEach(p => p.classList.remove('active'));
+      
+      const cards = document.querySelectorAll('.service-card');
+      cards.forEach((card, index) => {
+        card.classList.toggle('active', index === serviceIndex);
+      });
+      document.querySelectorAll('.project-list').forEach(list => {
+        list.classList.remove('active');
+      });
+      const targetList = document.querySelector(serviceProjectMap[serviceIndex]);
+      if (targetList) {
+        targetList.classList.add('active');
+      }
+      const container = document.getElementById('projectListContainer');
+      if (container) {
+        setTimeout(() => {
+          container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      showMainPage();
+      selectService(0);
+      var dropdownSub = document.querySelectorAll('.dropdown-submenu');
+      dropdownSub.forEach(function(item) {
+        item.addEventListener('mouseenter', function(e) {
+          var submenu = this.querySelector('.dropdown-menu');
+          if (submenu) { submenu.style.display = 'block'; }
+        });
+        item.addEventListener('mouseleave', function(e) {
+          var submenu = this.querySelector('.dropdown-menu');
+          if (submenu) { submenu.style.display = 'none'; }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
